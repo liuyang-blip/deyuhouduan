@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deyu.mapper.ScoreoperationMapper">
+    <!--添加审核操作-->
+    <insert id="addScoreoperation" parameterType="com.deyu.pojo.Scoreoperation">
+        insert into deyu.scoreoperation(id,stuid,stuname,stusex,stuclass,opcollege,opmajor,opteacher,opusername,opjurisdiction,opname,opclass,opclassinfo,opscoreclass,score,opstate,opscorefir,opscoresec,datetime,ip,info,othername,otherstate,othertime,shibie)
+        values (#{id},#{stuid},#{stuname},#{stusex},#{stuclass},#{opcollege},#{opmajor},#{opteacher},#{opusername},#{opjurisdiction},#{opname},#{opclass},#{opclassinfo},#{opscoreclass},#{score},#{opstate},#{opscorefir},#{opscoresec},#{datetime},#{ip},#{info},#{othername},#{otherstate},#{othertime},#{shibie});
+    </insert>
+    <!--更改审核操作-->
+    <update id="updateScoreoperation" parameterType="com.deyu.pojo.Scoreoperation">
+        update deyu.scoreoperation
+        set opstate=#{opstate} , info=#{info},othername=#{othername},otherstate=#{otherstate},othertime=#{othertime},shibie=#{shibie}
+        where id=#{id};
+    </update>
+    <!--查看审核操作-->
+    <select id="selectScoreoperation" resultType="com.deyu.pojo.Score_view">
+        select * from deyu.score_view
+        <where>
+            <if test="Keyword!= null">
+                and concat_ws("",stuid,stuname,scoreinfo) regexp #{Keyword}
+            </if>
+        </where>
+        limit #{page},#{limit}
+    </select>
+    <!--关键字查询-->
+    <select id="queryScoreoperation" resultType="com.deyu.pojo.Score_view">
+        select * from deyu.score_view
+    </select>
+    <!--查看加减分记录-->
+    <select id="selectScoreoperationinfo" resultType="com.deyu.pojo.Score_view">
+        select * from deyu.score_view
+        where stuid=#{stuid},stuname=#{stuname}
+    </select>
+    <!--通过id查询-->
+    <select id="queryScoreid" resultType="com.deyu.pojo.Score_view">
+        select * from deyu.score_view
+        where id=#{id}
+    </select>
+    <!--查看审核日志-->
+    <select id="selectScorezlog" resultType="com.deyu.pojo.Zlog_view">
+        select * from deyu.zlog_view
+        <where>
+            <if test="Keyword!= null">
+                and concat_ws("",id,s_id,s_name) regexp #{Keyword}
+            </if>
+        </where>
+        limit #{page},#{limit}
+    </select>
+    <!--关键字查询-->
+    <select id="queryScorezlog" resultType="com.deyu.pojo.Zlog_view">
+        select * from deyu.zlog_view
+    </select>
+</mapper>

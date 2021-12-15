@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deyu.mapper.CollegeMapper">
+<!--    添加学院-->
+    <insert id="addCollegeinfo" parameterType="com.deyu.pojo.College">
+        insert into deyu.college(collegeid, collegeinfo, userclass) VALUE
+            (#{collegeid},#{collegeinfo},#{userclass})
+    </insert>
+<!--    删除学院-->
+    <delete id="deleteCollegeInfo" parameterType="com.deyu.pojo.College">
+        delete from deyu.college where collegeid = #{collegeid}
+    </delete>
+<!--    修改学院-->
+    <update id="updateCollegeInfo" parameterType="com.deyu.pojo.College">
+       update deyu.college
+       set collegeinfo = #{collegeinfo},userclass = #{userclass}
+       where collegeid = #{collegeid}
+    </update>
+<!--    查询学院-->
+    <select id="selectCollegeInfo" resultType="com.deyu.pojo.U_Colle_View">
+        select * from deyu.u_colle_view
+            <where>
+                <if test="Keyword!= null">
+                    and concat_ws("",collegeinfo) regexp #{Keyword}
+                </if>
+            </where>
+            limit #{page},#{limit}
+    </select>
+    <!--    关键字查询-->
+    <select id="selectWhereCollege" resultType="com.deyu.pojo.U_Colle_View">
+        select * from deyu.u_college_view
+    </select>
+    <select id="queryAll" resultType="com.deyu.pojo.College">
+        select * from deyu.college
+    </select>
+</mapper>

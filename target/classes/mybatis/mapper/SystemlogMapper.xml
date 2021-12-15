@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deyu.mapper.SystemlogMapper">
+    <insert id="addSystemlog" parameterType="com.deyu.pojo.System">
+        insert into deyu.system (id,datetime,ip,info,state,username) values (#{id},#{datetime},#{ip},#{info},#{state},#{username})
+    </insert>
+    <!--查看系统操作日志-->
+    <select id="querySystemlog" resultType="com.deyu.pojo.Systemlog">
+        select * from deyu.systemlog
+        <where>
+            <if test="Keyword!= null">
+                and concat_ws("",username,info) regexp #{Keyword}
+            </if>
+        </where>
+        limit #{page}.#{limit}
+    </select>
+</mapper>
